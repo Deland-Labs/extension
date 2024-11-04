@@ -78,10 +78,12 @@ class SimpleKeyring {
     await psbt.sign(privateKeys);
     return psbt;
   };
-  signMessage(publicKey: string, text: string) {
+  signMessage(publicKey: string, text: string, withRandom = true) {
     const keyPair = this._getPrivateKeyFor(publicKey);
-    const { signMessage } = this.kaspaWasm;
-    const signature = signMessage({ message: text, privateKey: keyPair.privateKey.toString() });
+    const { signMessage, signMessageWithoutRand } = this.kaspaWasm;
+    const signature = withRandom
+      ? signMessage({ message: text, privateKey: keyPair.privateKey.toString() })
+      : signMessageWithoutRand({ message: text, privateKey: keyPair.privateKey.toString() });
     return Promise.resolve(signature);
   }
   verifyMessage(publicKey: string, message: string, signature: string) {

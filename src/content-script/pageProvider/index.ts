@@ -208,12 +208,13 @@ export class KaswareProvider extends EventEmitter {
     });
   };
 
-  signMessage = async (text: string, type: string) => {
+  signMessage = async (text: string, type: string, withRandom = true) => {
     return this._request({
       method: 'signMessage',
       params: {
         text,
-        type
+        type,
+        withRandom
       }
     });
   };

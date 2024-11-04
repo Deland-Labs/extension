@@ -65,7 +65,7 @@ export interface Keyring {
   getAccounts(): Promise<string[]>;
   getAccountsAndIndexAndDType: () => Promise<tempAccount[]>;
   signTransaction(psbt: any, inputs: ToSignInput[]): Promise<any>;
-  signMessage(address: string, message: string): Promise<string>;
+  signMessage(address: string, message: string, withRandom: boolean): Promise<string>;
   verifyMessage(address: string, message: string, sig: string): Promise<boolean>;
   exportAccount(address: string): Promise<string>;
   removeAccount(address: string): void;
@@ -566,9 +566,9 @@ class KeyringService extends EventEmitter {
    * Attempts to sign the provided message parameters.
    * address here means publickey string
    */
-  signMessage = async (pubkey: string, data: string) => {
+  signMessage = async (pubkey: string, data: string, withRandom = true) => {
     const keyring = await this.getKeyringForAccount(pubkey);
-    const sig = await keyring.signMessage(pubkey, data);
+    const sig = await keyring.signMessage(pubkey, data, withRandom);
     return sig;
   };
 

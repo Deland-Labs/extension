@@ -693,10 +693,10 @@ export class WalletController extends BaseController {
     return psbt;
   };
 
-  signMessage = async (text: string) => {
+  signMessage = async (text: string, withRandom = true) => {
     const account = preferenceService.getCurrentAccount();
     if (!account) throw new Error('no current account');
-    return keyringService.signMessage(account.pubkey, text);
+    return keyringService.signMessage(account.pubkey, text, withRandom);
   };
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
